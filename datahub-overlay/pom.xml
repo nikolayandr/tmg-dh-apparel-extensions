@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    [y] hybris Platform
+
+    Copyright (c) 2017 SAP SE or an SAP affiliate company.
+    All rights reserved.
+
+    This software is the confidential and proprietary information of SAP
+    ("Confidential Information"). You shall not disclose such Confidential
+    Information and shall use it only in accordance with the terms of the
+    license agreement you entered into with SAP.
+
+-->
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.tmg.androsovych.datahub64</groupId>
+        <artifactId>local-parent</artifactId>
+        <relativePath>../local-parent</relativePath>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>datahub-overlay</artifactId>
+    <packaging>war</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.hybris.datahub</groupId>
+            <artifactId>datahub-webapp</artifactId>
+            <version>${datahub.version}</version>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tmg.androsovych.datahub64</groupId>
+            <artifactId>local-raw</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tmg.androsovych.datahub64</groupId>
+            <artifactId>local-canonical</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tmg.androsovych.datahub64</groupId>
+            <artifactId>local-target</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>datahub-webapp</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <overlays>
+                        <overlay>
+                            <id>datahub-webapp</id>
+                        </overlay>
+                    </overlays>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <username>datahubDeployer</username>
+                    <password>datahubDeployer</password>
+                    <path>/datahub-webapp</path>
+                    <update>true</update>
+                    <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
